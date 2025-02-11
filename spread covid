@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int r[4] = {-1, 1, 0, 0};  // Row movement
+    int c[4] = {0, 0, -1, 1};  // Column movement
+
+    bool valid(int i, int j, int rows, int cols) {
+        return i >= 0 && i < rows && j >= 0 && j < cols;
+    }
+
+    int helpaterp(vector<vector<int>> &hospital) {
+        int rows = hospital.size();
+        if (rows == 0) return -1;  // Edge case: Empty hospital grid
+        int cols = hospital[0].size();
+
+        queue<pair<int, int>> q;
+        int healthyCount = 0;
+
+        // Find all initially infected patients
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (hospital[i][j] == 2) {
+                    q.push({i, j});
+                } else if (hospital[i][j] == 1) {
+                    healthyCount++;
+                }
+            }
+        }
+
+        if (healthyCount == 0) return 0;  // No healthy patients to infect
+
+        int time = 0;
+
+        // BFS to spread the infection
+        while (!q.empty()) {
+            int currSize = q.size();
+            bool infected = false;
+            
+            for (int i = 0; i < currSize; i++) {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+
+                for (int k = 0; k < 4; k++) {
+                    int newX = x + r[k];
+                    int newY = y + c[k];
+
+                    if (valid(newX, newY, rows, cols) && hospital[newX][newY] == 1) {
+                        hospital[newX][newY] = 2;
+                        q.push({newX, newY});
+                        infected = true;
+                        healthyCount--;
+                    }
+                }
+            }
+
+            if (infected) time++;
+        }
+
+        return (healthyCount == 0) ? time : -1;
+    }
+};
