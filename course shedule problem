@@ -1,0 +1,38 @@
+public:
+    vector<int> findOrder(int n, int m, vector<vector<int>>& prerequisites) {
+        vector<int> adj[n];  // Adjacency list
+        vector<int> indegree(n, 0);  // Indegree array
+        vector<int> ans;  // Resultant topological order
+
+        // Build adjacency list and compute indegree
+        for (int i = 0; i < m; i++) {
+            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
+            indegree[prerequisites[i][0]]++;
+        }
+
+        queue<int> q;
+
+        // Push all nodes with indegree 0
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        // Perform Kahn's Algorithm (BFS-based Topological Sort)
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+
+            for (int neighbor : adj[node]) {
+                indegree[neighbor]--; // Reduce indegree
+                if (indegree[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        // If topological sort includes all nodes, return it; otherwise, return empty vector (cycle detected)
+        return ans.size() == n ? ans : vector<int>();
+    }
