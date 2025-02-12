@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> shortestPath(vector<vector<int>>& adj, int src) {
+        int n = adj.size();
+        vector<int> dist(n, -1);  // Initialize distances to -1
+        vector<int> visited(n, 0); // Visited array
+        queue<int> q;
+
+        // Initialize BFS
+        q.push(src);
+        dist[src] = 0;
+        visited[src] = 1;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            for (int neighbor : adj[node]) { // Iterate over actual adjacency list
+                if (!visited[neighbor]) {
+                    visited[neighbor] = 1;
+                    q.push(neighbor);
+                    dist[neighbor] = dist[node] + 1;
+                }
+            }
+        }
+        return dist;
+    }
+};
