@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool isPossible(int N, int P, vector<pair<int, int>>& prerequisites) {
+        vector<int> adj[N];   // Adjacency list
+        vector<int> indegree(N, 0);  // Indegree array
+
+        // Build the adjacency list and compute indegrees
+        for (int i = 0; i < P; i++) {
+            adj[prerequisites[i].second].push_back(prerequisites[i].first);
+            indegree[prerequisites[i].first]++;
+        }
+
+        queue<int> q;
+        int count = 0;  // Track the number of nodes processed
+
+        // Push all nodes with indegree 0
+        for (int i = 0; i < N; i++) {
+            if (indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        // Perform Kahn's Algorithm (BFS-based Topological Sort)
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            count++;  // Increase count as we process a node
+
+            for (int neighbor : adj[node]) {
+                indegree[neighbor]--; // Reduce indegree of neighbors
+                if (indegree[neighbor] == 0) {
+                    q.push(neighbor); // Push next course if no prerequisites remain
+                }
+            }
+        }
+
+        return count == N;  // If we processed all nodes, return true
+    }
+};
