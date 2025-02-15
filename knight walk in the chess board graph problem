@@ -1,0 +1,75 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    // Structure to store knight's position and step count
+    struct Node {
+        int x, y, steps;
+    };
+
+    // Function to check if a move is valid
+    bool isValid(int x, int y, int N, vector<vector<bool>>& visited) {
+        return (x >= 1 && x <= N && y >= 1 && y <= N && !visited[x][y]);
+    }
+
+    // Function to find the minimum steps for a knight to reach target
+    int minStepToReachTarget(vector<int>& knightPos, vector<int>& targetPos, int N) {
+        // All possible moves of a knight
+        int dx[] = {2, 2, -2, -2, 1, 1, -1, -1};
+        int dy[] = {1, -1, 1, -1, 2, -2, 2, -2};
+
+        queue<Node> q;
+        q.push({knightPos[0], knightPos[1], 0});
+
+        // Visited array initialized to false
+        vector<vector<bool>> visited(N + 1, vector<bool>(N + 1, false));
+        visited[knightPos[0]][knightPos[1]] = true;
+
+        while (!q.empty()) {
+            Node curr = q.front();
+            q.pop();
+
+            // If the target position is reached, return the step count
+            if (curr.x == targetPos[0] && curr.y == targetPos[1])
+                return curr.steps;
+
+            // Explore all 8 possible moves
+            for (int i = 0; i < 8; i++) {
+                int newX = curr.x + dx[i];
+                int newY = curr.y + dy[i];
+
+                // If the move is valid, mark it as visited and push to queue
+                if (isValid(newX, newY, N, visited)) {
+                    visited[newX][newY] = true;
+                    q.push({newX, newY, curr.steps + 1});
+                }
+            }
+        }
+
+        return -1; // If the target is not reachable
+    }
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		vector<int>KnightPos(2);
+		vector<int>TargetPos(2);
+		int N;
+		cin >> N;
+		cin >> KnightPos[0] >> KnightPos[1];
+		cin >> TargetPos[0] >> TargetPos[1];
+		Solution obj;
+		int ans = obj.minStepToReachTarget(KnightPos, TargetPos, N);
+		cout << ans <<"\n";
+	
+cout << "~" << "\n";
+}
+	return 0;
+}
+// } Driver Code Ends
