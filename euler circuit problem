@@ -1,0 +1,77 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    void DFS(int node, vector<int> adj[], vector<bool>& visited) {
+        visited[node] = true;
+        for (int neighbor : adj[node]) {
+            if (!visited[neighbor]) {
+                DFS(neighbor, adj, visited);
+            }
+        }
+    }
+
+    int isEulerCircuit(int V, vector<int> adj[]) {
+        vector<int> degree(V, 0);
+        vector<bool> visited(V, false);
+        int oddCount = 0;
+
+        // Count degrees of each vertex
+        for (int i = 0; i < V; i++) {
+            degree[i] = adj[i].size();
+            if (degree[i] % 2 != 0) oddCount++;
+        }
+
+        // Find a starting node (a node with edges)
+        int startNode = -1;
+        for (int i = 0; i < V; i++) {
+            if (degree[i] > 0) {
+                startNode = i;
+                break;
+            }
+        }
+
+        if (startNode == -1) return 2; // No edges, Eulerian Circuit by default
+
+        // Perform DFS from startNode
+        DFS(startNode, adj, visited);
+
+        // Check if all non-zero degree vertices are visited
+        for (int i = 0; i < V; i++) {
+            if (degree[i] > 0 && !visited[i]) return 0; // Not connected
+        }
+
+        // Check Eulerian Circuit or Path
+        if (oddCount == 0) return 2; // Eulerian Circuit
+        if (oddCount == 2) return 1; // Eulerian Path
+
+        return 0; // Neither
+    }
+	
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int V, E;
+		cin >> V >> E;
+		vector<int>adj[V];
+		for(int i = 0; i < E; i++){
+			int u, v;
+			cin >> u >> v;
+			adj[u].push_back(v);
+			adj[v].push_back(u);
+		}
+		Solution obj;
+		int ans = obj.isEulerCircuit(V, adj);
+		cout << ans <<"\n";	
+cout << "~" << "\n";
+}
+	return 0;
+}
+// } Driver Code Ends
