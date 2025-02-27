@@ -1,0 +1,39 @@
+public:
+    stack<int> st, s2;
+
+    Solution() {}
+
+    // Add an element to the top of Stack
+    void push(int x) {
+        if (s2.empty() || s2.top() >= x) { // Fix: Correct condition to handle empty case
+            s2.push(x);
+        }
+        st.push(x);
+    }
+
+    // Remove the top element from the Stack
+    void pop() {
+        if (!st.empty()) {
+            if (!s2.empty() && s2.top() == st.top()) { // Fix: Ensure s2 is not empty before calling top()
+                s2.pop();
+            }
+            st.pop();
+        }
+    }
+
+    // Returns top element of the Stack
+    int peek() {
+        if (!st.empty()) {
+            return st.top(); // Fix: Should return the actual top element
+        }
+        return -1; // Return a default value if stack is empty
+    }
+
+    // Finds minimum element of Stack
+    int getMin() {
+        if (!s2.empty()) {
+            return s2.top();
+        }
+        return -1; // Return a default value if stack is empty
+    }
+};
