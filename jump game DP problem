@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool canJump(vector<int>& arr) {
+        int sizeArr = arr.size();
+        int reach = 0;
+        
+        for (int i = 0; i < sizeArr; i++) {
+            if (i > reach) {
+                return false; // If we reach an index we can't jump to, return false
+            }
+            reach = max(reach, i + arr[i]); // Update the farthest reachable index
+        }
+        
+        return true; // If we exit the loop, we can reach the last index
+    }
+};
