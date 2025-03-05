@@ -1,0 +1,44 @@
+            
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+        int rows = matrix.size(), cols = matrix[0].size();
+        int maxSum = INT_MIN;
+
+        // Iterate over left column bounds
+        for (int left = 0; left < cols; left++) {
+            vector<int> rowSum(rows, 0); // Row-wise sum
+            
+            // Iterate over right column bounds
+            for (int right = left; right < cols; right++) {
+                
+                // Compute row sums for the current column range
+                for (int r = 0; r < rows; r++) {
+                    rowSum[r] += matrix[r][right];
+                }
+
+                // Find the max subarray sum ≤ k using a Set
+                set<int> sums;
+                sums.insert(0);
+                int currSum = 0, currMax = INT_MIN;
+
+                for (int sum : rowSum) {
+                    currSum += sum;
+                    
+                    // Find the smallest prefix sum ≥ (currSum - k)
+                    auto it = sums.lower_bound(currSum - k);
+                    if (it != sums.end()) {
+                        currMax = max(currMax, currSum - *it);
+                    }
+                    
+                    // Insert current sum into the set
+                    sums.insert(currSum);
+                }
+
+                maxSum = max(maxSum, currMax);
+            }
+        }
+
+        return maxSum;
+    }
+};
