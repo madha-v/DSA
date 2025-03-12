@@ -1,0 +1,62 @@
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.util.*;
+import java.io.*;
+
+class GFG{
+	public static void main(String[] args){
+		Scanner sc=new Scanner(System.in);
+		int t=sc.nextInt();
+		while(t-->0){
+			int n=sc.nextInt();
+			int[] entry=new int[n];
+			for(int i=0;i<n;i++)
+				entry[i]=sc.nextInt();
+			int[] exit=new int[n];
+			for(int i=0;i<n;i++)
+				exit[i]=sc.nextInt();
+			Solution ob= new Solution();
+			int[] res=ob.findMaxGuests(entry,exit,n);
+			for(int i=0;i<2;i++){
+				System.out.print(res[i]);
+			    System.out.print(" ");
+			}
+			System.out.println();
+		}
+	}
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution {
+    public int[] findMaxGuests(int[] Entry, int[] Exit, int N) {
+        Arrays.sort(Entry);
+        Arrays.sort(Exit);
+
+        int currentGuests = 0, maxGuests = 0, peakTime = 0;
+        int i = 0, j = 0;
+
+        while (i < N && j < N) {
+            if (Entry[i] <= Exit[j]) {  // New guest arrives
+                currentGuests++;
+                if (currentGuests > maxGuests) {
+                
+                    maxGuests = currentGuests;
+                    peakTime = Entry[i];  // Update peak time
+                } else if (currentGuests == maxGuests) {
+                    peakTime = Math.min(peakTime, Entry[i]); // Ensure smallest time
+                }
+                i++;
+            } else {  // Guest leaves
+                currentGuests--;
+                j++;
+            }
+        }
+        return new int[]{maxGuests, peakTime};
+    }
+}
+
