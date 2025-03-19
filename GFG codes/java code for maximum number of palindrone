@@ -1,0 +1,53 @@
+interface CountIP {
+    int countPalindromes(String str);
+}
+
+// Class implementing the interface
+class Result implements CountIP {
+    
+    @Override
+    public int countPalindromes(String str) {
+        // Split the input string by spaces to get individual words
+        String[] words = str.split(" ");
+        int palindromeCount = 0;
+
+        // Check each word if it's a palindrome
+        for (String word : words) {
+            if (isPalindrome(word)) {
+                palindromeCount++;
+            }
+        }
+
+        return palindromeCount;
+    }
+    
+    // Helper method to check if a word is a palindrome
+    private boolean isPalindrome(String word) {
+        int left = 0;
+        int right = word.length() - 1;
+        
+        while (left < right) {
+            if (word.charAt(left) != word.charAt(right)) {
+                return false;  // Not a palindrome
+            }
+            left++;
+            right--;
+        }
+        
+        return true;  // It is a palindrome
+    }
+}
+
+// Driver class to test the solution
+public class palindrone count
+ {
+    public static void main(String[] args) {
+        // Test caseMa
+        Result result = new Result();
+        String input = "ab aba sad";
+        
+        int palindromeCount = result.countPalindromes(input);
+        System.out.println("No. Of palindromes: " + palindromeCount);  // Output: 1
+    }
+}
+
