@@ -1,0 +1,64 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+class Solution {
+public:
+    vector<int> kthLargest(int k, int arr[], int n) {
+        
+        vector<int> ans(n);  // To store the Kth largest elements at each step
+        priority_queue<int, vector<int>, greater<int>> pq;  // Min-heap
+        
+        // Process each element of the array
+        for (int i = 0; i < n; i++) {
+            // If the heap has less than k elements, push the current element
+            if (pq.size() < k) {
+                pq.push(arr[i]);
+            } else {
+                // If the heap has k elements and the current element is larger than the smallest
+                // (the root of the min-heap), pop the smallest and push the current element
+                if (arr[i] > pq.top()) {
+                    pq.pop();
+                    pq.push(arr[i]);
+                }
+            }
+            
+            // If the heap has fewer than k elements, we can't return the Kth largest yet
+            if (pq.size() < k) {
+                ans[i] = -1;
+            } else {
+                // The root of the heap is the Kth largest element
+                ans[i] = pq.top();
+            }
+        }
+        
+        return ans;
+    }
+};
+
+
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int k,n;
+        cin>>k>>n;
+        int arr[n];
+        for(int i=0; i<n; i++)
+            cin>>arr[i];
+
+        Solution ob;
+        vector<int> v = ob.kthLargest(k,arr,n);
+        for(int i : v)
+            cout<<i<<" ";
+        cout<<endl;
+    
+cout << "~" << "\n";
+}
+    return 0;
+}
+// } Driver Code Ends
