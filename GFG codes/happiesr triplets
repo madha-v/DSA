@@ -1,0 +1,82 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+
+class Solution {
+  public:
+    vector<int> smallestDifferenceTriplet(vector<int>& arr1, vector<int>& arr2,
+                                   vector<int>& arr3) {
+                                      
+        sort(arr1.begin(), arr1.end());
+        sort(arr2.begin(), arr2.end());
+        sort(arr3.begin(), arr3.end());
+
+        int i = 0, j = 0, k = 0;
+        int mindiff = INT_MAX, minsum = INT_MAX;
+        vector<int> res(3);
+ 
+           while (i < arr1.size() && j < arr2.size() && k < arr3.size()) {
+             int mx = max({arr1[i], arr2[j], arr3[k]});
+            int mn = min({arr1[i], arr2[j], arr3[k]});
+            int sum = arr1[i] + arr2[j] + arr3[k];
+            int diff = mx - mn;
+
+           
+            if (diff < mindiff || (diff == mindiff && sum < minsum)) {
+                mindiff = diff;
+                minsum = sum;
+                res = {arr1[i], arr2[j], arr3[k]};
+            }
+
+           
+            if (mn == arr1[i]) i++;
+            else if (mn == arr2[j]) j++;
+            else k++;
+        }
+
+       
+        sort(res.rbegin(), res.rend());  
+        return res;
+    }
+};
+
+
+//{ Driver Code Starts.
+int main() {
+    string ts;
+    getline(cin, ts);
+    int t = stoi(ts);
+    while (t--) {
+        string s;
+        getline(cin, s);
+        stringstream ss(s);
+        vector<int> arr1, arr2, arr3;
+        int num;
+        while (ss >> num) {
+            arr1.push_back(num);
+        }
+        getline(cin, s);
+        ss.clear();
+        ss.str(s);
+        while (ss >> num) {
+            arr2.push_back(num);
+        }
+        getline(cin, s);
+        ss.clear();
+        ss.str(s);
+        while (ss >> num) {
+            arr3.push_back(num);
+        }
+
+        Solution ob;
+        vector<int> ans = ob.smallestDifferenceTriplet(arr1, arr2, arr3);
+        cout << ans[0] << " " << ans[1] << " " << ans[2] << endl;
+        cout << "~" << endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
