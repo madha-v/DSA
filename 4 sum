@@ -38,3 +38,27 @@ public:
         return res;
     }
 };
+  // optimised version  will be using the hashmap
+
+class Solution {
+public:
+    int subarraysWithXorK(vector<int> &nums, int k) {
+        int n = nums.size();
+        unordered_map<int,int> freq;
+        int xr = 0, c = 0;
+
+        for (int i = 0; i < n; i++) {
+            xr ^= nums[i];
+
+            if (xr == k) c++;  // subarray [0..i] has xor = k
+
+            int need = xr ^ k;
+            if (freq.find(need) != freq.end()) {
+                c += freq[need];
+            }
+
+            freq[xr]++;
+        }
+        return c;
+    }
+};
