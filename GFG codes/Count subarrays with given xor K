@@ -1,0 +1,20 @@
+class Solution{
+public:
+    int subarraysWithXorK(vector<int> &nums, int k) {
+    int n=nums.size();
+     int c=0;
+    for(int i=0;i<n;i++)
+    {
+        int xr=0;
+        for(int j=i;j<n;j++)
+        {
+            xr=xr^nums[j];
+            if(xr==k)
+            {
+                c++;
+            }
+        }
+    }
+        return c;
+    }
+};
