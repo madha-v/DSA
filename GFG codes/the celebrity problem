@@ -1,0 +1,43 @@
+// stack based problem 
+
+
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        stack<int> s;
+        int n = mat.size();
+        
+        // Push all persons into stack
+        for(int i=0;i<n;i++) {
+            s.push(i);
+        }
+        
+        // Step 1: Find potential celebrity
+        while(s.size() > 1) {
+            int a = s.top(); s.pop();
+            int b = s.top(); s.pop();
+            
+            if(mat[a][b] == 1) {
+                // a knows b → a cannot be celebrity
+                s.push(b);
+            } else {
+                // a does not know b → b cannot be celebrity
+                s.push(a);
+            }
+        }
+        
+        int celeb = s.top();
+        
+        // Step 2: Verify celeb
+        for(int i=0;i<n;i++) {
+            if(i != celeb) {
+                // celeb should not know i, and everyone should know celeb
+                if(mat[celeb][i] == 1 || mat[i][celeb] == 0) {
+                    return -1;
+                }
+            }
+        }
+        
+        return celeb;
+    }
+};
