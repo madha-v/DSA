@@ -1,0 +1,16 @@
+class Solution {
+  public:
+    int maxPartitions(vector<int>& arr) {
+       int n=arr.size();
+       int sum=0;
+       int sum1=0,c=0;
+       for(int i=0;i<n;i++)
+       {
+           sum+=arr[i];
+           sum1+=arr[i];
+           if(sum==sum1)
+           c++;
+       }
+       return c;
+    }
+};
