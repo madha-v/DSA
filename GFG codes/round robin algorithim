@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, quantum;
+    cout << "Enter number of processes: ";
+    cin >> n;
+    cout << "Enter time quanta: ";
+      cin >> quantum;
+
+    int bt[n], ct[n], tat[n], wt[n];
+    cout << "\nEnter Burst Times:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "P" << i+1 << ": ";
+        cin >> bt[i];
+    }
+
+    int rem[n];
+    for (int i = 0; i < n; i++) 
+    rem[i] = bt[i];
+
+    int time = 0, done = 0;
+
+    while (done < n) {
+        for (int i = 0; i < n; i++) {
+            if (rem[i] > 0) {
+                if (rem[i] > quantum) {
+                    time += quantum;
+                    rem[i] -= quantum;
+                } else {
+                    time += rem[i];
+                    rem[i] = 0;
+                    ct[i] = time; 
+                    done++;
+                }
+            }
+        }
+    }
+    double avgTAT = 0, avgWT = 0;
+    cout << "\nProcess\tBT\tCT\tTAT\tWT\n";
+    for (int i = 0; i < n; i++) {
+        tat[i] = ct[i];    
+        wt[i] = tat[i] - bt[i];
+
+        avgTAT += tat[i];
+        avgWT += wt[i];
+
+        cout << "P" << i+1 << "\t" << bt[i] << "\t" << ct[i]
+             << "\t" << tat[i] << "\t" << wt[i] << "\n";
+    }
+
+    cout << "\nAverage TAT = " << avgTAT/n;
+    cout << "\nAverage WT  = " << avgWT/n << endl;
+
+    return 0;
+}
