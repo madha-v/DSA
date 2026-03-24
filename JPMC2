@@ -1,0 +1,40 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<sstream>
+using namespace std;
+string solve(string str)
+{
+    vector<string>words;
+    string word;
+    stringstream ss(str);
+    while(ss>>word)
+    {
+        words.push_back(word);
+    }
+   reverse(words.begin(),words.end());
+   string res="";
+   for(int i=0;i<words.size();i++)
+   {
+       res+=words[i];
+   }
+   if(!res.empty())
+   {
+       res[0]=toupper(res[0]);
+   }
+   if(res.back()!='.')
+   {
+       res+='.';
+   }
+    
+  return res;
+    
+    
+}
+int main()
+{
+    string str;
+    getline(cin,str);
+    cout<< solve(str);
+    return 0;
+}
