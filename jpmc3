@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+#include<algorithm>
+int solve1(int r ,int c)
+{
+    int total=0;
+    for(int k=1;k<=min(r,c);k++)
+    {
+        total+=(r-k+1)*(c-k+1);
+    }
+    return total;
+}
+int remove(int r, int c , int l)
+{
+    int c1=0;
+    for(int k=1;k<=min(r,c);k++)
+    {
+        int posc=(c-k+1);
+        int affected=min(l,posc);
+        c1+=affected;
+    }
+    return c1;
+}
+int main() {
+            int n,m,l;
+            cin>>n>>m>>l;
+            int r=n-1;
+            int c=m-1;
+            int total=0, removed=0, ans=0;
+            int grid[r][c];
+            total=solve1(r,c);
+            removed=remove(r,c,l);
+             ans=total-removed;
+            cout<<ans;
+             return 0;
+}
