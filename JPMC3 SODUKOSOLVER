@@ -1,0 +1,81 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+bool valid(int grid[9][9], int r , int c ,int n)
+{
+    for(int x=0;x<9;x++)
+    if(grid[r][x]==n) return  false;
+    
+     for(int x=0;x<9;x++)
+    if(grid[x][c]==n) return  false;
+    int startraw=r-r%3;
+    int startcol=c-c%3;
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            if(grid[i+startraw][j+startcol]==n) return false;
+        }
+        
+    }
+    return true;
+}
+
+bool sodukosolve(int grid[9][9])
+{
+    for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            if(grid[i][j]==0)
+            {
+                for(int num=1;num<=9;num++)
+                {
+                    if(valid(grid, i, j,num))
+                    {
+                        grid[i][j]=num;
+                        if(sodukosolve(grid))
+                        {
+                            return true;
+                        }
+                        grid[i][j]=0;
+                    }
+                 }
+                  return false;
+            }
+           
+        }
+    }
+    return true;
+}
+void printsoduko(int grid[9][9])
+{
+     for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            cout<< grid[i][j]<<" " ;
+        }
+        cout<<endl;
+    }
+}
+int main()
+{
+    int grid[9][9];
+    for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            cin>>grid[i][j];
+        }
+    }
+    if(sodukosolve(grid))
+    {
+        printsoduko(grid);
+    }
+    else
+    {
+        cout<<"no such exixt";
+    }
+    return 0;
+}
