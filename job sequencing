@@ -1,0 +1,34 @@
+class Solution{  
+  public:  
+    vector<int> JobScheduling(vector<vector<int>>& Jobs) { 
+        int n=Jobs.size();
+        int m=Jobs[0].size();
+        sort(Jobs.begin(),Jobs.end() ,[](vector<int>&a , vector<int>&b){
+            return a[2]>b[2];
+        });
+         int maxi=0;
+       for (auto &job : Jobs)
+        {
+            maxi=max(maxi,job[1]);
+        }
+        vector<int>slots(maxi+1,-1);
+        int c=0;
+        int profit=0;
+        for(int i=0;i<n;i++)
+        {
+           int d=Jobs[i][1];
+           for(int j=d;j>=1;j--)
+           {
+            if(slots[j]==-1)
+            {
+                slots[j]=1;
+                c++;
+                profit+=Jobs[i][2];
+                break;
+            }
+           }
+        }
+        return {c,profit};
+    } 
+
+};
