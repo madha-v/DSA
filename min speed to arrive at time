@@ -1,0 +1,39 @@
+// leetcode 1870 
+class Solution {
+    bool solve(vector<int>& dist, double hour, int speed, int n)
+    {
+        double t = 0;
+
+        for(int i=0;i<n-1;i++)
+        {
+            t += ceil((double)dist[i] / speed);
+        }
+
+        t += (double)dist[n-1] / speed;
+
+        return t <= hour;
+    }
+
+public:
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        int n = dist.size();
+        int l = 1;
+        int r = 10000000;
+        int ans = -1;
+         while(l <= r)
+        {
+            int mid = l + (r-l)/2;
+            if(solve(dist, hour, mid, n))
+            {
+                ans = mid;
+                r = mid - 1;
+            }
+            else
+            {
+                l = mid + 1;
+            }
+        }
+
+        return ans;
+    }
+};   classic binary search pattern should be applied 
