@@ -1,0 +1,49 @@
+class Solution {
+public:
+    long long LCM(long long a,long long b)
+    {
+        return (a*b)/__gcd(a,b);
+    }
+
+    long long maxScore(vector<int>& nums) {
+
+        int n=nums.size();
+
+        long long ans=0;
+
+        // remove every element once
+        for(int rem=-1;rem<n;rem++)
+        {
+            long long g=0;
+            long long l=1;
+
+            bool first=true;
+
+            for(int i=0;i<n;i++)
+            {
+                if(i==rem)
+                    continue;
+
+                if(first)
+                {
+                    g=nums[i];
+                    l=nums[i];
+                    first=false;
+                }
+                else
+                {
+                    g=__gcd(g,(long long)nums[i]);
+                    l=LCM(l,(long long)nums[i]);
+                }
+            }
+
+            if(first)
+                ans=max(ans,0LL);   // all removed
+
+            else
+                ans=max(ans,g*l);
+        }
+
+        return ans;
+    }
+};
