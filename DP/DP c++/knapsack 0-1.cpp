@@ -123,3 +123,8 @@ int main()
     int n=5;
     cout<<knapsack(val ,wt, w, n);
 }
+
+4
+1 3 4 5
+1 4 5 7
+7
