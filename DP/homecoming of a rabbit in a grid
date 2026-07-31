@@ -1,0 +1,33 @@
+// leetcode 2087 juspay oa question
+class Solution {
+public:
+    int minCost(vector<int>& startPos, vector<int>& homePos, vector<int>& rowCosts, vector<int>& colCosts) {
+        int r1=startPos[0],c1=startPos[1];
+        int r2=homePos[0],c2=homePos[1];
+        int res=0;
+
+        if(r2>=r1) {  // downwards direction move
+                for(int r=r1+1;r<=r2;r++)
+                {
+                    res+=rowCosts[r];
+                }
+        }else{
+            for(int r=r1-1;r>=r2;r--){  // row wise going upwards
+                 res+=rowCosts[r];
+            }
+        }
+        
+        if(c2>=c1){ // downwards column wise
+             for(int c=c1+1;c<=c2;c++){  // column wise going downwards
+                res+=colCosts[c];
+             }
+        }
+        else{
+            for(int c=c1-1;c>=c2;c--){ // column wise going upwards
+                 res+=colCosts[c];
+            }
+        }
+
+        return res;
+    }
+};
