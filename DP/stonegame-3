@@ -1,0 +1,37 @@
+class Solution {
+    int n;
+    int dp[50001];
+    int solve(vector<int>&arr , int i)
+    {
+        if(i>=n){
+            return 0;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        int ans=arr[i]-solve(arr,i+1);
+        if(i+1<n){
+            ans=max(ans, arr[i]+arr[i+1]-solve(arr,i+2));
+        }
+        if (i+2<n){
+               ans=max(ans, arr[i]+arr[i+1]+arr[i+2]-solve(arr,i+3));
+        }
+        return dp[i]= ans;
+    }
+public:
+    string stoneGameIII(vector<int>& stoneValue) {
+        n=stoneValue.size();
+          memset(dp,-1,sizeof(dp));
+         int res=solve(stoneValue,0);
+       
+         if(res>0){
+            return "Alice";
+         }
+         else if(res<0){
+            return "Bob";
+         }
+         else{
+            return "Tie";
+         }
+    }
+};
