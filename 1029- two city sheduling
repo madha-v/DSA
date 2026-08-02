@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int twoCitySchedCost(vector<vector<int>>& costs) {
+        int n = costs.size(); // FIXED: 'costs' instead of 'cost'
+        
+        // Difference array store karne ke liye
+        vector<pair<int, int>> diff(n);
+        
+        for(int i = 0; i < n; i++){
+            int costa = costs[i][0]; // FIXED: Declared as int
+            int costb = costs[i][1]; // FIXED: Declared as int and used 'costs'
+            
+            // City B ki cost se City A ki cost minus kar rahe hain
+            diff[i] = {costb - costa, i}; 
+        }
+        
+        // Difference ke hisaab se sort kar diya
+        sort(diff.begin(), diff.end());
+        
+        int ans = 0;
+
+        // Shuru ke n/2 log City B jayenge (jahan shift karna sabse sasta hai)
+        for(int i = 0; i < n / 2; i++){
+            int idx = diff[i].second;
+            ans += costs[idx][1]; // FIXED: Add actual cost of City B
+        }
+        
+        // Baaki bache n/2 log City A jayenge
+        for(int i = n / 2; i < n; i++){
+            int idx = diff[i].second;
+            ans += costs[idx][0]; // FIXED: Add actual cost of City A
+        }
+        
+        return ans;
+    }
+};
