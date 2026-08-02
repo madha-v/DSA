@@ -1,0 +1,58 @@
+class Solution {
+    int mod = 1e9 + 7;
+public:
+    int countTexts(string pressedKeys) {
+        int n = pressedKeys.size();
+        vector<int> dp3(n + 1, 0), dp4(n + 1, 0);
+        
+        dp3[0] = 1; 
+        dp4[0] = 1;
+        
+        for(int i = 1; i <= n; i++){
+            // dp3 transitions (for 3-letter keys)
+            dp3[i] = dp3[i-1];
+            if(i >= 2){
+                dp3[i] = (dp3[i] + dp3[i-2]) % mod;
+            }
+            if(i >= 3){
+                dp3[i] = (dp3[i] + dp3[i-3]) % mod;
+            }
+
+            // dp4 transitions (for 4-letter keys)
+            dp4[i] = dp4[i-1];
+            if(i >= 2){
+                dp4[i] = (dp4[i] + dp4[i-2]) % mod;
+            }
+            if(i >= 3){
+                dp4[i] = (dp4[i] + dp4[i-3]) % mod;
+            }
+            if(i >= 4){  // FIXED: Changed from i>=3 to i>=4
+                dp4[i] = (dp4[i] + dp4[i-4]) % mod;
+            } 
+        }
+
+        int ans = 1;
+        int i = 0;
+        
+        while(i < n){
+            int count = 0;
+            char ch = pressedKeys[i];
+            
+            // Count consecutive identical digits
+            while(i < n && pressedKeys[i] == ch){
+                count++;
+                i++;
+            }
+
+            // FIXED: Used 'count' instead of 'i', and handled integer overflow with 1LL
+            if(ch == '7' || ch == '9'){
+                ans = (1LL * ans * dp4[count]) % mod;
+            }
+            else {
+                ans = (1LL * ans * dp3[count]) % mod;
+            }
+        }
+        
+        return ans;
+    }
+};
